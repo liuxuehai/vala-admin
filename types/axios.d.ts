@@ -28,6 +28,8 @@ export interface RequestOptions {
   withToken?: boolean;
   // 请求重试机制
   retryRequest?: RetryRequest;
+  // 请求API类型
+  apiType?: string;
 }
 
 export interface RetryRequest {
@@ -38,7 +40,7 @@ export interface RetryRequest {
 export interface Result<T = any> {
   code: number;
   type: 'success' | 'error' | 'warning';
-  message: string;
+  msg: string;
   result: T;
 }
 
