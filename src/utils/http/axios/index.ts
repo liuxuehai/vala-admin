@@ -17,6 +17,7 @@ import { useI18n } from '/@/hooks/web/useI18n'
 import { joinTimestamp, formatRequestDate } from './helper'
 import { useUserStoreWithOut } from '/@/store/modules/user'
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry'
+import apiConfig from './config'
 
 const globSetting = useGlobSetting()
 const urlPrefix = globSetting.urlPrefix
@@ -203,7 +204,27 @@ const transform: AxiosTransform = {
   },
 }
 
+function getApiUrl(): string {
+  const apiModule = apiConfig.urlQuene['api']
+  let env = ''
+  if (import.meta.env.DEV) {
+    env = 'dev'
+  }
+  if (import.meta.env.PROD) {
+    const match = window.location.origin.match(/(dev|qa|uat)-?/)
+    if (match) {
+      env = match[1]
+    } else {
+      env = 'prod'
+    }
+  }
+  const apiUrl = `${apiModule[env]}`
+  return apiUrl
+}
+
 function createAxios(opt?: Partial<CreateAxiosOptions>) {
+  const apiUrl = getApiUrl()
+
   return new VAxios(
     // 深度合并
     deepMerge(
@@ -224,7 +245,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           // 默认将prefix 添加到url
-          joinPrefix: true,
+          joinPrefix: false,
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
           isReturnNativeResponse: false,
           // 需要对返回数据进行处理
@@ -236,7 +257,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 消息提示类型
           errorMessageMode: 'message',
           // 接口地址
-          apiUrl: globSetting.apiUrl,
+          apiUrl: apiUrl,
           // 接口拼接地址
           urlPrefix: urlPrefix,
           //  是否加入时间戳

@@ -77,7 +77,7 @@
 
   import { useUserStore } from '/@/store/modules/user'
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin'
-  import { useDesign } from '/@/hooks/web/useDesign'
+  // import { useDesign } from '/@/hooks/web/useDesign'
   //import { onKeyStroke } from '@vueuse/core';
 
   const ACol = Col
@@ -86,7 +86,7 @@
   const InputPassword = Input.Password
   const { t } = useI18n()
   const { notification, createErrorModal } = useMessage()
-  const { prefixCls } = useDesign('login')
+  // const { prefixCls } = useDesign('login')
   const userStore = useUserStore()
 
   const { setLoginState, getLoginState } = useLoginState()
@@ -114,8 +114,8 @@
       loading.value = true
       const userInfo = await userStore.login({
         password: data.password,
-        username: data.account,
-        mode: 'none', //不要默认的错误提示
+        loginAccount: data.account,
+        mode: 'message', //不要默认的错误提示
       })
       if (userInfo) {
         notification.success({
@@ -128,7 +128,6 @@
       createErrorModal({
         title: t('sys.api.errorTip'),
         content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
-        getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
       })
     } finally {
       loading.value = false
