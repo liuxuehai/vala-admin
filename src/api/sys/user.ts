@@ -4,6 +4,7 @@ import {
   LoginResultModel,
   GetUserInfoModel,
   UserPageResultModel,
+  UserInfoModel,
 } from './model/userModel';
 import { ErrorMessageMode } from '#/axios';
 
@@ -14,6 +15,7 @@ enum Api {
   GetPermCode = '/uac/user/getPermCode',
   TestRetry = '/testRetry',
   UserPageQuery = '/uac/user/pageQuery',
+  UserInfoSave = '/uac/user/saveOrUpdate',
 }
 
 /**
@@ -44,8 +46,21 @@ export function getUserInfo(userId: string | number) {
   );
 }
 
-export function getPermCode() {
-  return defHttp.get<string[]>({ url: Api.GetPermCode });
+export function getPermCode(userId: string | number) {
+  const params = {
+    userId,
+  };
+  return defHttp.get<string[]>({ url: Api.GetPermCode, params });
+}
+
+/**
+ * @description: getUserInfo
+ */
+export function getUserInfoV2(userId: string | number) {
+  const params = {
+    userId,
+  };
+  return defHttp.get<UserInfoModel>({ url: Api.GetUserInfo, params }, { errorMessageMode: 'none' });
 }
 
 export function doLogout() {
@@ -56,6 +71,18 @@ export function userPageQuery(params: any, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<UserPageResultModel>(
     {
       url: Api.UserPageQuery,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+export function saveOrUpdate(params: UserInfoModel | any, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<UserInfoModel>(
+    {
+      url: Api.UserInfoSave,
       params,
     },
     {

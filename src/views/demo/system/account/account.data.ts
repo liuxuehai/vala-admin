@@ -1,4 +1,4 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
+import { getAllRoleList, isAccountExist } from '@/api/uac/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 
 /**

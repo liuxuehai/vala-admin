@@ -5,6 +5,6 @@ export default defineBuildConfig({
   entries: ['src/index', 'src/strict'],
   declaration: true,
   rollup: {
-    emitCJS: true,
+    emitCJS: false,
   },
 });

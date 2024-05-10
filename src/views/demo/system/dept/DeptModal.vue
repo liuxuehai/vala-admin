@@ -9,7 +9,7 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { formSchema } from './dept.data';
 
-  import { getDeptList } from '@/api/demo/system';
+  import { getDeptList } from '@/api/uac/system';
 
   defineOptions({ name: 'DeptModal' });
 

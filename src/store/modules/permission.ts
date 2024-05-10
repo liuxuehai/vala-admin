@@ -104,7 +104,8 @@ export const usePermissionStore = defineStore({
       this.lastBuildMenuTime = 0;
     },
     async changePermissionCode() {
-      const codeList = await getPermCode();
+      const userStore = useUserStore();
+      const codeList = await getPermCode(userStore.userInfo.userId);
       this.setPermCodeList(codeList);
     },
 

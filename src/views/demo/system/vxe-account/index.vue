@@ -13,7 +13,7 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
   import { ActionItem, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
+  import { getAccountList } from '@/api/uac/system';
   import { PageWrapper } from '@/components/Page';
   import DeptTree from '../account/DeptTree.vue';
   import { columns, searchFormSchema } from './vxeAccount.data';

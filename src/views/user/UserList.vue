@@ -3,7 +3,7 @@
     <BasicTable @register="registerTable">
       <template #form-custom> custom-slot </template>
       <template #toolbar>
-        <a-button type="primary" @click="getSelectRowKeyList">获取</a-button>
+        <a-button type="primary" @click="addModel">新增</a-button>
       </template>
     </BasicTable>
   </div>
@@ -11,14 +11,16 @@
 <script lang="ts" setup>
   import { BasicTable, ColumnChangeParam, useTable } from '@/components/Table';
   import { getBasicColumns, getFormConfig } from './tableData';
-  import { useMessage } from '@/hooks/web/useMessage';
-  import { userPageQuery } from '@/api/sys/user';
 
-  const { createMessage } = useMessage();
+  import { userPageQuery } from '@/api/sys/user';
+  import { useGo } from '@/hooks/web/usePage';
+
+  const go = useGo();
+
   function onChange() {
     console.log('onChange', arguments);
   }
-  const [registerTable, { getSelectRowKeys }] = useTable({
+  const [registerTable] = useTable({
     canResize: true,
     title: '用户列表',
     api: userPageQuery,
@@ -28,17 +30,13 @@
     rowKey: 'userId',
     showTableSetting: true,
     onChange,
-    rowSelection: {
-      type: 'checkbox',
-    },
     onColumnsChange: (data: ColumnChangeParam[]) => {
       console.log('ColumnsChanged', data);
     },
     showSelectionBar: false, // 显示多选状态栏
   });
 
-  function getSelectRowKeyList() {
-    createMessage.info('请在控制台查看！');
-    console.log(getSelectRowKeys());
+  function addModel() {
+    go('/user/info?model=add');
   }
 </script>
